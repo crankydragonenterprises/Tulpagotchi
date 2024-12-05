@@ -1,23 +1,32 @@
 .header {
-    display: inline-block;
+    display: flex;
     width: 100%;
   }
 
+.logo-container {
+    flex-basis: 70%;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
 #logo {
     height: 100px;
+    
 }
 
-#id {
-    float: left;
-    padding: 10px;
+.nav-buttons-container {
+    display: flex;
+    flex-basis: 30%;
+    flex-direction: row;
+    align-items: center;
 }
 
-#log-in {
-    float: right;
+#log-in, #contact-us {
     padding: 10px;
-}
-
-#contact-us {
-    float: right;
-    padding: 10px;
+    margin: 10px;
+    flex-basis: 20%;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-content: center;
+    text-align: center;
 }

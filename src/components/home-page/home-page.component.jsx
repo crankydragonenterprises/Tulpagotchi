@@ -24,7 +24,7 @@ function HomePage() {
             </div>
             <h1>How It Works</h1>
             <div id="how-it-works">
-                <p>Starting off with two randomly generated dragons, you can grow your collection until you have all the colors and patterns</p>
+                <p>Starting off with two randomly generated dragons. Then you grow them by writing words. You can match them by writing more words. Then hatch the eggs by, you guessed it, more words. Keep going until you have all the species, colors, and patterns.</p>
             </div>
         </div>
     )

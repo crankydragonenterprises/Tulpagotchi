@@ -2,6 +2,8 @@ import Footer from "./components/footer/footer.component"
 import Header from "./components/header/header.component"
 import HomePage from "./components/home-page/home-page.component"
 
+import './App.css';
+
 function App() {
   return (
     <div>
