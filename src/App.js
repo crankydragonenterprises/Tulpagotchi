@@ -3,12 +3,14 @@ import Header from "./components/header/header.component"
 import HomePage from "./components/home-page/home-page.component"
 
 import './App.css';
+import LogInPage from "./components/log-in-page/log-in-page.component";
 
 function App() {
   return (
     <div>
       <Header />
-      <HomePage />
+      {/* <HomePage /> */}
+      <LogInPage />
       <Footer />
     </div>
   )

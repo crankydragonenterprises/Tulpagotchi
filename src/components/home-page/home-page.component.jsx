@@ -15,11 +15,11 @@ function HomePage() {
             <div id="what-is-it">
                 <p>A <strong>tulpa</strong> a being or thought-form that is created through intense concentration and spiritual practice, and is often in the form of a human. A <strong>tamagotchi</strong> is a handheld digital pet. A <strong>tulpagotchi</strong> therefore is a digital being created from your imagination. Ours take the form of dragons, gryphons, krakens, cthulhus, and phoenixes.</p>
                 <div id='image-container'>
-                    <img src={dragonImage} alt="dragon image" className="home-page-image"/>
-                    <img src={gryphonImage} alt="gryphon image" className="home-page-image"/>
-                    <img src={krakenImage} alt="kraken image" className="home-page-image"/>
-                    <img src={cthulhuImage} alt="cthulhu image" className="home-page-image"/>
-                    <img src={phoenixImage} alt="phoenix image" className="home-page-image"/>
+                    <img src={dragonImage} alt="dragon" className="home-page-image"/>
+                    <img src={gryphonImage} alt="gryphon" className="home-page-image"/>
+                    <img src={krakenImage} alt="kraken" className="home-page-image"/>
+                    <img src={cthulhuImage} alt="cthulhu" className="home-page-image"/>
+                    <img src={phoenixImage} alt="phoenix" className="home-page-image"/>
                 </div>
             </div>
             <h1>How It Works</h1>
