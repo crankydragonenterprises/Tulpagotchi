@@ -1,9 +1,9 @@
 import React from "react";
 
-function CustomImage({sourceURI},{altText}, height) {
+function CustomImage({sourceURI, altText, height }) {
     return (
-        <div className={`image-container-${height}`}>
-            <img src={sourceURI} alt={altText}/>
+        <div className={'image-container'}>
+            <img src={sourceURI} alt={altText} height={height}/>
         </div>
     )
 }

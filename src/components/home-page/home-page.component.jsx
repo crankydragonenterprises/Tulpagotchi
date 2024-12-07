@@ -1,6 +1,6 @@
 import React from "react";
 
-import './home-page.component.scss';
+import './home-page.styles.scss';
 
 import dragonImage from '../../images/tulpagotchi-images/Dragon/Basic/Basic_Baby/Basic_Baby_Cyan_Pink.png';
 import gryphonImage from '../../images/tulpagotchi-images/Gryphon/Mottled/Mottled_Baby/Mottled_Baby_Green_Red.png';

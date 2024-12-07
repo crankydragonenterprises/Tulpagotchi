@@ -1,0 +1,39 @@
+.login-page-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.login-page-image-container {
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 50%;
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.login-page-form-container {
+    border: 1px solid blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 50%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    
+    padding: 10px;
+}
+
+@media (max-width:600px) {
+    .login-page-image-container {
+        display: none;
+    }
+    
+    .login-page-form-container {
+        flex-basis: 100%;
+    }
+}
