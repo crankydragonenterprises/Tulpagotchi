@@ -1,27 +1,77 @@
 import React from "react";
+import { useState } from "react";
+
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
-import { signInWithGooglePopup, createUserDocumentFromAuth} from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup, createUserDocumentFromAuth, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
-function LogInForm() {
-    const logGoogleUser = async() => {
-        const {user} = await signInWithGooglePopup();
-        const userDocRef = await createUserDocumentFromAuth(user);
+const defaultFormFields = {
+    email: '',
+    password: ''
+}
+
+const LogInForm = () => {
+    const [formFields, setFormFields] = useState(defaultFormFields);
+    const { email, password } = formFields;
+
+    const resetFormFields = () => {
+        setFormFields(defaultFormFields);
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await signInUserWithEmailAndPassword(email, password);
+            console.log(response);
+            resetFormFields();
+        }
+        catch (error)
+        {
+            if(error.code === 'auth/invalid-credential')
+            {
+                alert('invalid username or password');
+            }
+            else {
+                console.log('error logging in', error)
+            }
+        }
+    }
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        setFormFields({...formFields, [name]: value})
+    }
+
+    const logInGoogleUser = async() => {
+        try {
+            const {user} = await signInWithGooglePopup();
+            await createUserDocumentFromAuth(user);
+        }
+        catch(error)
+        {
+            if(error.code === 'auth/popup-closed-by-user'){
+                return;
+            }
+            else {
+                console.log(error);
+            }
+        }
     }
 
     return(
         <div className="form-container">
-            <form id="loginForm">
-                <FormInput label="Username" type="text" htmlFor="username" id="username" name="username" />
-                <FormInput label="Password" type="password" htmlFor="password" id="password" name="password" />
+            <form id="loginForm" onSubmit={handleSubmit}>
+                <FormInput label="Email" type="email" htmlFor="email" id="email" name="email" required onChange={handleChange} value={email}/>
+                <FormInput label="Password" type="password" htmlFor="password" id="password" name="password" onChange={handleChange} value={password} required/>
                 <div className="buttons-container">
                     <CustomButton type='submit'>Sign In</CustomButton>
-                    <CustomButton type='button' buttonType='google' onClick={logGoogleUser}>
-                        Google sign in
+                    <CustomButton type='button' buttonType='google' onClick={logInGoogleUser}>
+                        Sign in with Google
                     </CustomButton>
                 </div>
-                <div id="errorMessage" className="error"></div>
             </form>
         </div>
     )

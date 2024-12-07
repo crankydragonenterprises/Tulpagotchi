@@ -2,11 +2,11 @@ import React from "react";
 
 import './form-input.styles.scss';
 
-function FormInput ( { label, type, htmlFor, id, name } ) {
+function FormInput ( { label, htmlFor, ...otherProps} ) {
     return (
         <div className="form-group">
             <label htmlFor={htmlFor}>{label}</label>
-            <input type={type} id={id} name={name} required />
+            <input {...otherProps} />
         </div>
     )
 }
