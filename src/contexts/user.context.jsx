@@ -29,6 +29,7 @@ export const UserProvider = ({ children }) => {
         })
 
         return unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
