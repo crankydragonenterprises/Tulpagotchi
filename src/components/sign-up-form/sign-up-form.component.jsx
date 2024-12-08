@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 
@@ -16,6 +17,8 @@ const defaultFormFields = {
 const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
+
+    const navigate = useNavigate();
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
@@ -35,14 +38,21 @@ const SignUpForm = () => {
         try {
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
             
+            // setCurrentUser(user);
+
             await createUserDocumentFromAuth(user, { displayName });
 
             resetFormFields();
+            if(user)
+                navigate("/dashboard")
         }
         catch (error) {
             if(error.code === 'auth/email-already-in-use')
             {
                 alert('This email already has an account.');
+            }
+            else if (error.code === 'auth/password-does-not-meet-requirements') {
+                alert('Password must be at least 8 characters long');
             }
             else {
                 console.log('create user encountered an error', error);

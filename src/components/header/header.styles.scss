@@ -10,23 +10,56 @@
 }
 
 #logo {
-    height: 100px;
-    
+    width: 100%;
+}
+#small-logo {
+    display:  none;
 }
 
-.nav-buttons-container {
+.nav-buttons-container, .authentication-buttons {
     display: flex;
     flex-basis: 30%;
     flex-direction: row;
     align-items: center;
 }
 
-#log-in, #sign-up, #contact-us {
+.nav-link {
     padding: 10px;
     margin: 10px;
-    flex-basis: 20%;
+    flex-basis: 30%;
     flex-grow: 1;
     flex-shrink: 0;
     align-content: center;
     text-align: center;
+    cursor: pointer;
+
+    border: 1px solid red;
+}
+
+@media screen and (max-width: 750px){
+   #logo {
+    display: none;
+   } 
+
+   #small-logo {
+    display: inline-block;
+    
+   }
+   
+   .logo-container {
+    flex-basis: 20%;
+}
+.nav-buttons-container, .authentication-buttons {
+    display: flex;
+    flex-basis: 80%;
+    align-items: center;
+    justify-content: flex-start;
+}
+}
+
+@media screen and (max-width: 350px)
+{
+    #small-logo {
+        display: none;
+    }
 }

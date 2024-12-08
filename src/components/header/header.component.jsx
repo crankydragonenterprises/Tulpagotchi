@@ -1,24 +1,39 @@
-import React from "react";
+import React, { Fragment, useContext } from "react";
 
 import './header.styles.scss';
 import Logo from '../../images/logo.png';
-import { Outlet } from "react-router-dom";
+import smallLogo from '../../images/logo_small.png';
+import { Outlet, Link } from "react-router-dom";
+
+import { UserContext } from "../../contexts/user.context";
+
+import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 const Header = () => {
+    const { currentUser } = useContext(UserContext);
+
     return (
-        <div>
+        <Fragment>
             <div className="header">
-                <div className="logo-container">
-                    <img src={Logo} alt="Tulpagotchi logo" id="logo"/>
-                </div>
+                <Link className="logo-container" to="/">
+                    <img alt="Tulpagotchi logo" id="logo" src={Logo}/>
+                    <img alt="Tulpagtochi logo" id="small-logo" height="100px" src={smallLogo} />
+                </Link>
                 <div className="nav-buttons-container">
-                    <a href="/log-in" id="log-in">Log In</a>
-                    <a href="/sign-up" id="sign-up">Sign Up</a>
-                    <a href="/contact-us" id="contact-us">Contact Us</a>
+                    {
+                        currentUser ? (
+                            <span id="sign-out" className="nav-link" onClick={signOutUser}>Sign Out</span> )
+                            :
+                            (<div className="authentication-buttons">
+                                <Link to="/log-in" id="log-in" className="nav-link">Log In</Link>
+                                <Link to="/sign-up" id="sign-up" className="nav-link">Sign Up</Link>
+                            </div>)
+                    }
+                    <Link to="/contact-us" id="contact-us" className="nav-link">Contact Us</Link>
                 </div>
             </div> 
             <Outlet />
-        </div>
+        </Fragment>
     )
 }
 

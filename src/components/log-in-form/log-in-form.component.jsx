@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
-import { signInWithGooglePopup, createUserDocumentFromAuth, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup, signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
     email: '',
@@ -15,6 +16,7 @@ const LogInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
 
+    const navigate = useNavigate();
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }
@@ -23,9 +25,16 @@ const LogInForm = () => {
         event.preventDefault();
 
         try {
-            const response = await signInUserWithEmailAndPassword(email, password);
-            console.log(response);
-            resetFormFields();
+            const user = await signInUserWithEmailAndPassword(email, password);
+            
+
+            if(user) {
+                console.log(user);
+                navigate("/dashboard")
+            }
+            else {
+                resetFormFields();
+            }
         }
         catch (error)
         {
@@ -47,8 +56,10 @@ const LogInForm = () => {
 
     const logInGoogleUser = async() => {
         try {
-            const {user} = await signInWithGooglePopup();
-            await createUserDocumentFromAuth(user);
+            const user = await signInWithGooglePopup();
+            if(user) {
+                navigate("/dashboard")
+            }
         }
         catch(error)
         {
