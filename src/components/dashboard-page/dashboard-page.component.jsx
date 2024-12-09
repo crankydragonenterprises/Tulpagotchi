@@ -19,11 +19,19 @@ function DashboardPage() {
     const [dragon, setDragon] = useState({});
 
     useEffect(() => {
-        const randomDragon = GetRandomDragon();
-        setDragon(randomDragon);
+        (
+            async() => {
+            try {
+                const response = await GetRandomDragon();
+                setDragon(response);
+            }
+            catch (error)
+            {
+                console.log(error);
+            }
+        })();
     }, [])
 
-    //const dragon = GetRandomDragon();
     console.log(dragon);
 
     const usersDragons = [
@@ -59,8 +67,8 @@ function DashboardPage() {
                             Age === "Baby" ? "100" : "200"} />
                         )
                 })}
-                <h1>Dragon main color: {dragon.mainColor}</h1>
-                {/* <img src={require(dragon.imageUrl)} alt="test"/> */}
+                <h1>Dragon main color: {dragon.imageUrl}</h1>
+                {/* <img src={require(`${dragon.imageUrl}`)} alt="test"/> */}
                 {/* <img src={require(`${generateImageUrlFromDragon(dragon)}`)} alt="random dragon" /> */}
             </div>
             {/*Progress Bar component*/}
