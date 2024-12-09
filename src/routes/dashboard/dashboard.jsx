@@ -1,11 +1,10 @@
 import React from "react";
+import DashboardPage from "../../components/dashboard-page/dashboard-page.component";
 
 
 function Dashboard () {
     return(
-        <div>
-            <h1>I am the Dashboard page</h1>
-        </div>
+        <DashboardPage />
     )
 }
 

@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import './App.css';
 //import LogInPage from "./components/log-in-page/log-in-page.component";
@@ -20,12 +20,6 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
     </Routes>
-    // <div>
-    //   <Header />
-    //   <HomePage />
-    //   <LogInPage />
-    //   <Footer />
-    // </div>
   )
 }
 
