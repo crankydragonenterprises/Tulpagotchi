@@ -46,14 +46,9 @@ export async function getDocumentById(collectioName, documentId) {
     //const docRef = doc(db, "dragons", "1");
     const docSnapshot = await getDoc(docRef);
 
-    if(docSnapshot.exists())
-    {
-        console.log("Document data: ", docSnapshot.data);
-    }
-    else 
-    {
-        console.log("No such document");
-    }
+    const returnedDocument = docSnapshot.data();
+
+    return returnedDocument;
 }
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {

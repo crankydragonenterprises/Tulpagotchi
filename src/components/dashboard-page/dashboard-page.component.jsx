@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import './dashboard-page.styles.scss';
 
@@ -10,16 +10,20 @@ import { getDragonFromDB } from "../../contexts/dragons.context";
 async function GetRandomDragon() {
     const randomDragonId = getRandomInt(132);
     const randomDragon = await getDragonFromDB(`${randomDragonId}`);
-    console.log(randomDragon);
 
+    console.log(randomDragon);
     return randomDragon;
-    // randomDragon = DragonData.filter((dragon) => 
-    //     dragon.id === randomDragonId;
-    // )
 }
 
 function DashboardPage() {
-    const dragon = GetRandomDragon();
+    const [dragon, setDragon] = useState({});
+
+    useEffect(() => {
+        const randomDragon = GetRandomDragon();
+        setDragon(randomDragon);
+    }, [])
+
+    //const dragon = GetRandomDragon();
     console.log(dragon);
 
     const usersDragons = [
@@ -55,6 +59,9 @@ function DashboardPage() {
                             Age === "Baby" ? "100" : "200"} />
                         )
                 })}
+                <h1>Dragon main color: {dragon.mainColor}</h1>
+                {/* <img src={require(dragon.imageUrl)} alt="test"/> */}
+                {/* <img src={require(`${generateImageUrlFromDragon(dragon)}`)} alt="random dragon" /> */}
             </div>
             {/*Progress Bar component*/}
             <div className="progress-bar-container">
