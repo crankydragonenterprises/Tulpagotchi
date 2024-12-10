@@ -1,9 +1,11 @@
 import React from "react";
 
-function CustomImage({sourceURI, altText, height }) {
+import './image.styles.scss';
+
+function CustomImage({id, sourceURI, altText, height }) {
     return (
         <div className={'image-container'}>
-            <img src={sourceURI} alt={altText} height={height}/>
+            <img key={id} src={sourceURI} alt={altText} height={height}/>
         </div>
     )
 }

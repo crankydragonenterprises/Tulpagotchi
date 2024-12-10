@@ -1,0 +1,33 @@
+.navigation-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    height: 50px;
+    justify-content: flex-start;
+    list-style-type: none;
+    background-color: fuchsia;
+}
+
+.nav-button {
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+    margin: 0 10px;
+    flex-basis: 15%;
+    flex-shrink: 1;
+    flex-grow: 0;
+    text-align: center;
+
+    :hover {
+        background-color: fuchsia;
+        color: black;
+    }
+    
+    a {
+        display: block;
+        height: 50px;
+        color: white;
+        background-color: purple;
+        align-content: center;
+    }
+}

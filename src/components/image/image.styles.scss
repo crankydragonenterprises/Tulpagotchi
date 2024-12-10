@@ -1,0 +1,10 @@
+.image-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+        display: inline-block;
+        margin: 10px;
+    }
+}
