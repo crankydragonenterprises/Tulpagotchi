@@ -8,6 +8,18 @@
     border-radius: 15%;
     padding: 15px;
     overflow-x: auto;
+    overflow-y: auto;
+}
+
+.filters-parent {
+    display: block;
+    width: 100%;
+}
+
+.filters-container {
+    display: flex;
+    flex-basis: 100%;
+    justify-content: space-between;
 }
 
 @media screen and (max-width: 500px) {

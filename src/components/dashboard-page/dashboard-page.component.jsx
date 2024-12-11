@@ -3,6 +3,57 @@ import React from "react";
 import './dashboard-page.styles.scss';
 
 import CustomImage from "../image/image.component";
+import FilterDropDown from "../filter-dropdown/filter-dropdown.component";
+
+const FilterOptions = [
+    {
+        id: "Age",
+        options: [
+            "All",
+            "Egg",
+            "Baby",
+            "Adult",
+        ]
+    },
+    {
+        id: "Breed",
+        options: [
+            "All",
+            "Dragon",
+            "Gryphon",
+            "Phoenix",
+            "Kraken",
+            "Cthulhu",
+        ]
+    },
+    {
+        id: "Pattern",
+        options: [
+            "All",
+            "Basic",
+            "Striped",
+            "Mottled",
+        ]
+    },
+    {
+        id: "Color",
+        options: [
+            "All",
+            "Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Cyan",
+            "Blue",
+            "Purple",
+            "Pink",
+            "Brown",
+            "Black",
+            "White",
+            "Rainbow",
+        ]
+    },
+]
 
 function DashboardPage() {
 
@@ -15,6 +66,16 @@ function DashboardPage() {
         <div>
             {/*Dragon Pen component*/}
             <div className="dragon-pen-container">
+                <div className="filters-parent">
+                    <p>Filters:</p>
+                    <div className="filters-container">
+                        {
+                            FilterOptions.map((category) => {
+                                return <FilterDropDown key={category.id} category= {category} />
+                            })
+                        }
+                    </div>
+                </div>
                 {
                     usersDragons.map((dragon) => {
                         const {id, imageSource, mainColor, secondaryColor, Age} = dragon;

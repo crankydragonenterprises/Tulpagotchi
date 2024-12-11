@@ -1,0 +1,29 @@
+.filter-category {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: blue;
+    color: white;
+
+    &:hover {
+        background-color: purple;
+    }
+}
+
+.filter-content {
+    padding-inline-start: 0;
+    margin-top: 0;
+}
+
+.visible {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 2;
+}
+.hidden {
+    display: none;
+}
+
+.filter-content li:hover {
+        background-color: fuchsia;
+}

@@ -1,6 +1,4 @@
-import React from "react";
 import LogInPage from "../../components/log-in-page/log-in-page.component";
-
 
 function LogIn () {
     return(
