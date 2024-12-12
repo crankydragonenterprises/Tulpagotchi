@@ -27,23 +27,60 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 
 export const db = getFirestore();
 
+export const getDocumentCollection = async(collectioName, userUid) => {
+    // console.log(collectioName);
+    // console.log(userUid);
+    const docRef = doc(db, collectioName, userUid);
+    const docSnapshot = await getDoc(docRef);
+    try {
+
+        if(docSnapshot.exists()) {
+            return docSnapshot.data();
+        }
+        else {
+            console.log("unable to find document")
+        }
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
+export const addDocumentToCollection = async(collectionName, userUid, objectArrayToAdd) => {
+    // console.log(collectionName);
+    // console.log(userUid);
+    // console.log(objectArrayToAdd);
+    const docRef = doc(db,collectionName, userUid);
+    await setDoc(docRef,  objectArrayToAdd)
+        .then(console.log('done adding a document to collection'));
+}
+
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
-    const collectionReference = collection(db, collectionKey);
-    const batch = writeBatch(db);
+    console.log(collectionKey);
+    console.log(objectsToAdd)
+    try {
 
-    objectsToAdd.forEach((object) => {
-        const docRef = doc(collectionReference, object.id);
-        batch.set(docRef, object);
-    });
+        const collectionReference = collection(db, collectionKey);
+        const batch = writeBatch(db);
+        
+        objectsToAdd.forEach((object) => {
+            const docRef = doc(collectionReference, object.id);
+            batch.set(docRef, object);
+        });
+        
+        await batch.commit();
+        console.log("done");
+    }
+    catch (error) {
+        console.log(error);
+    }
 
-    await batch.commit();
-
-    console.log("done");
 }
 
 export async function getDocumentById(collectioName, documentId) {
+    // console.log(collectioName);
+    // console.log(documentId);
     const docRef = doc(db, collectioName, documentId);
-    //const docRef = doc(db, "dragons", "1");
     const docSnapshot = await getDoc(docRef);
 
     const returnedDocument = docSnapshot.data();

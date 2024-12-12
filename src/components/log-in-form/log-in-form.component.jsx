@@ -26,7 +26,6 @@ const LogInForm = () => {
 
         try {
             const user = await signInUserWithEmailAndPassword(email, password);
-            
 
             if(user) {
                 console.log(user);

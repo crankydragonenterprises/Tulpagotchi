@@ -1,6 +1,10 @@
+import { DragondexProvider } from "../../contexts/dragondex.context";
+
 function Dragondex () {
     return(
-        <h1>I am the dragondex page</h1>
+        <DragondexProvider>
+            <h1>I am the dragondex page</h1>
+        </DragondexProvider>
     )
 }
 

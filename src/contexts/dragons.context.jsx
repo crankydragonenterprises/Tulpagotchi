@@ -1,16 +1,33 @@
 
-import { getDocumentById } from "../utils/firebase/firebase.utils"
+import { addDocumentToCollection, getDocumentById, getDocumentCollection } from "../utils/firebase/firebase.utils"
 import { getRandomInt, getRandomUid } from "../utils/random/random.utils";
 
 import { DragonData } from '../dragon_data';
+import { createContext, useState } from "react";
 
+export const DragonContext = createContext({
+    usersDragons: {dragons: []},
+    setUsersDragons: () => null,
+});
+
+export const setDragonsInDB = async(dragons, userID) => {
+    await addDocumentToCollection("usersDragons", userID, dragons);
+    //console.log("added dragons to db");
+}
+
+export const getUsersDragonsFromDB = async(userID) => {
+    const returnedDragons = await getDocumentCollection("usersDragons", userID);
+    return returnedDragons;
+}
 
 export const getDragonFromDB = async(dragonId) => {
-    const dragon = await getDocumentById("dragons", dragonId);
+    const { id } = dragonId;
+    const dragon = await getDocumentById("dragons", id);
     const imageURL = generateImageUrlFromDragon(dragon);
     const dragonUid = getRandomUid();
-    const dragonWithImageURL = {...dragon, id: {dragonUid}, imageUrl:{imageURL}};
+    const dragonWithImageURL = {...dragon, id: dragonUid, imageUrl:imageURL};
 
+    //console.log(dragonWithImageURL);
     return dragonWithImageURL;
 }
 
@@ -21,7 +38,6 @@ export async function createRandomBabyDragons() {
         .filter((dragon) => dragon.Pattern === "Basic");
     
     var numberOfBabyDragons = babyDragons.length;
-    console.log(numberOfBabyDragons);
 
     var twoRandomDragons = [];
 
@@ -30,13 +46,20 @@ export async function createRandomBabyDragons() {
         var babyDragon = await getDragonFromDB(babyDragons[getRandomInt(numberOfBabyDragons)]);
         twoRandomDragons[i] = babyDragon;
     }
-
+    //console.log(twoRandomDragons);
     return twoRandomDragons;
 }
 
 export const generateImageUrlFromDragon = (dragon) =>
 {
     const { Breed, Pattern, Age, mainColor, secondaryColor } = dragon;
-    
-    return `https://tulpagotchi-images.s3.us-east-1.amazonaws.com/images/tulpagotchi-images/${Breed}/${Pattern}/${Pattern}_${Age}/${Pattern}_${Age}_${mainColor}_${secondaryColor}.png`;
+    if(Age === "Egg") return "https://tulpagotchi-images.s3.us-east-1.amazonaws.com/images/egg.png";
+    else return `https://tulpagotchi-images.s3.us-east-1.amazonaws.com/images/tulpagotchi-images/${Breed}/${Pattern}/${Pattern}_${Age}/${Pattern}_${Age}_${mainColor}_${secondaryColor}.png`;
+}
+
+export const DragonProvider = ({ children }) => {
+    const [usersDragons, setUsersDragons] = useState([]);
+    const value = { usersDragons, setUsersDragons };
+
+    return <DragonContext.Provider value={value}>{children}</DragonContext.Provider>
 }

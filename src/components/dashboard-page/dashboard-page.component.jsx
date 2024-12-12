@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import './dashboard-page.styles.scss';
 
 import CustomImage from "../image/image.component";
 import FilterDropDown from "../filter-dropdown/filter-dropdown.component";
+import { createRandomBabyDragons, DragonContext, setDragonsInDB, getUsersDragonsFromDB } from "../../contexts/dragons.context";
+import { UserContext } from "../../contexts/user.context";
 
 const FilterOptions = [
     {
@@ -54,14 +56,50 @@ const FilterOptions = [
         ]
     },
 ]
-
+   
 function DashboardPage() {
+        
+    const { usersDragons, setUsersDragons } = useContext(DragonContext);
+    const { currentUser } = useContext(UserContext);
 
-    const usersDragons = 
-    [
-        {"id": "1","Breed":"Dragon","Pattern":"Basic","Age":"Baby","mainColor":"Black","secondaryColor":"Black","imageSource":"https://tulpagotchi-images.s3.us-east-1.amazonaws.com/images/tulpagotchi-images/Dragon/Basic/Basic_Baby/Basic_Baby_Black_Black.png"},
-        {"id": "2","Breed":"Dragon","Pattern":"Basic","Age":"Adult","mainColor":"Black","secondaryColor":"Blue","imageSource":"https://tulpagotchi-images.s3.us-east-1.amazonaws.com/images/tulpagotchi-images/Dragon/Basic/Basic_Adult/Basic_Adult_Black_Blue.png"},  
-    ]
+    async function setNewBabyDragons() {
+        if(currentUser)
+            {   const newBabyDragons = await createRandomBabyDragons();
+                //console.log(newBabyDragons);
+                setUsersDragons(newBabyDragons); 
+                const babyDragonObject = newBabyDragons.reduce((acc, value, index) => {
+                    acc[index] = value;
+                    return acc;
+                }, {})
+                //console.log(babyDragonObject);
+                await setDragonsInDB(babyDragonObject, currentUser.uid);
+            }
+    }
+    async function checkForUsersDragons() {
+        console.log(currentUser);
+        console.log(usersDragons);
+        if(currentUser) {
+            const usersDragonsFromDB = await getUsersDragonsFromDB(currentUser.uid);
+            //console.log(usersDragonsFromDB);
+
+            setUsersDragons(Object.values(usersDragonsFromDB));
+            
+            console.log(usersDragons);
+
+            if(usersDragons.length === 0) {
+                await setNewBabyDragons();
+            }
+        }
+        else {
+            console.log("no current user")
+        }
+    }
+
+    useEffect(() => {
+        checkForUsersDragons();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    
     return (
         <div>
             {/*Dragon Pen component*/}
@@ -78,11 +116,18 @@ function DashboardPage() {
                 </div>
                 {
                     usersDragons.map((dragon) => {
-                        const {id, imageSource, mainColor, secondaryColor, Age} = dragon;
+                        const {id, imageUrl, mainColor, secondaryColor, Age} = dragon;
 
+                        var imageHeight;
+                        switch(Age)
+                        {
+                            case "Egg": imageHeight = "75"; break;
+                            case "Baby": imageHeight = "100"; break;
+                            case "Adult": imageHeight = "200"; break;
+                            default: break;
+                        }
                         return (
-                            <CustomImage key={id} sourceURI={imageSource} alt={`${mainColor} and ${secondaryColor} dragon`} height={
-                            Age === "Baby" ? "100" : "200"} />
+                            <CustomImage key={id} sourceURI={imageUrl} alt={`${mainColor} and ${secondaryColor} dragon`} height={imageHeight} />
                         )
                 })}
             </div>
