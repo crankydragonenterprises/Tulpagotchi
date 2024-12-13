@@ -2,6 +2,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore';
 
+//import { setNewBabyDragons } from '../../contexts/dragons.context';
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -50,9 +52,16 @@ export const addDocumentToCollection = async(collectionName, userUid, objectArra
     // console.log(collectionName);
     // console.log(userUid);
     // console.log(objectArrayToAdd);
-    const docRef = doc(db,collectionName, userUid);
-    await setDoc(docRef,  objectArrayToAdd)
+    try {
+
+        const docRef = doc(db,collectionName, userUid);
+        await setDoc(docRef,  objectArrayToAdd)
         .then(console.log('done adding a document to collection'));
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
 }
 
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
@@ -105,6 +114,8 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
             await setDoc(userDocRef, {
                 displayName, email, createdAt, ...additionalInformation
             });
+
+            //await setNewBabyDragons(userDocRef);
         }
         catch (error) {
             console.log('error creating the users', error.message);

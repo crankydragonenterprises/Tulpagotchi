@@ -4,11 +4,19 @@ import { getRandomInt, getRandomUid } from "../utils/random/random.utils";
 
 import { DragonData } from '../dragon_data';
 import { createContext, useState } from "react";
+import { UserContext } from "./user.context";
 
 export const DragonContext = createContext({
-    usersDragons: {dragons: []},
+    usersDragons: [],
     setUsersDragons: () => null,
 });
+
+export const DragonProvider = ({ children }) => {
+    const [usersDragons, setUsersDragons] = useState({});
+    const value = { usersDragons, setUsersDragons };
+
+    return <DragonContext.Provider value={value}>{children}</DragonContext.Provider>
+}
 
 export const setDragonsInDB = async(dragons, userID) => {
     await addDocumentToCollection("usersDragons", userID, dragons);
@@ -50,16 +58,23 @@ export async function createRandomBabyDragons() {
     return twoRandomDragons;
 }
 
+export async function setNewBabyDragons(currentUser) {
+    const setUsersDragons = UserContext(DragonContext);
+
+    const newBabyDragons = await createRandomBabyDragons();
+    //console.log(newBabyDragons);
+    setUsersDragons(newBabyDragons); 
+    const babyDragonObject = newBabyDragons.reduce((acc, value, index) => {
+        acc[index] = value;
+        return acc;
+    }, {})
+    //console.log(babyDragonObject);
+    await setDragonsInDB(babyDragonObject, currentUser.uid);
+}
+
 export const generateImageUrlFromDragon = (dragon) =>
 {
     const { Breed, Pattern, Age, mainColor, secondaryColor } = dragon;
     if(Age === "Egg") return "https://tulpagotchi-images.s3.us-east-1.amazonaws.com/images/egg.png";
     else return `https://tulpagotchi-images.s3.us-east-1.amazonaws.com/images/tulpagotchi-images/${Breed}/${Pattern}/${Pattern}_${Age}/${Pattern}_${Age}_${mainColor}_${secondaryColor}.png`;
-}
-
-export const DragonProvider = ({ children }) => {
-    const [usersDragons, setUsersDragons] = useState([]);
-    const value = { usersDragons, setUsersDragons };
-
-    return <DragonContext.Provider value={value}>{children}</DragonContext.Provider>
 }

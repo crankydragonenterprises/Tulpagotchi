@@ -4,7 +4,7 @@ import './dashboard-page.styles.scss';
 
 import CustomImage from "../image/image.component";
 import FilterDropDown from "../filter-dropdown/filter-dropdown.component";
-import { createRandomBabyDragons, DragonContext, setDragonsInDB, getUsersDragonsFromDB } from "../../contexts/dragons.context";
+import { DragonContext, getUsersDragonsFromDB } from "../../contexts/dragons.context";
 import { UserContext } from "../../contexts/user.context";
 
 const FilterOptions = [
@@ -62,43 +62,78 @@ function DashboardPage() {
     const { usersDragons, setUsersDragons } = useContext(DragonContext);
     const { currentUser } = useContext(UserContext);
 
-    async function setNewBabyDragons() {
-        if(currentUser)
-            {   const newBabyDragons = await createRandomBabyDragons();
-                //console.log(newBabyDragons);
-                setUsersDragons(newBabyDragons); 
-                const babyDragonObject = newBabyDragons.reduce((acc, value, index) => {
-                    acc[index] = value;
-                    return acc;
-                }, {})
-                //console.log(babyDragonObject);
-                await setDragonsInDB(babyDragonObject, currentUser.uid);
-            }
-    }
-    async function checkForUsersDragons() {
-        console.log(currentUser);
-        console.log(usersDragons);
-        if(currentUser) {
-            const usersDragonsFromDB = await getUsersDragonsFromDB(currentUser.uid);
-            //console.log(usersDragonsFromDB);
+    // async function setNewBabyDragons() {
+    //     if(currentUser)
+    //         {   const newBabyDragons = await createRandomBabyDragons();
+    //             //console.log(newBabyDragons);
+    //             setUsersDragons(newBabyDragons); 
+    //             const babyDragonObject = newBabyDragons.reduce((acc, value, index) => {
+    //                 acc[index] = value;
+    //                 return acc;
+    //             }, {})
+    //             //console.log(babyDragonObject);
+    //             await setDragonsInDB(babyDragonObject, currentUser.uid);
+    //         }
+    // }
+    
 
-            setUsersDragons(Object.values(usersDragonsFromDB));
-            
-            console.log(usersDragons);
+    // useEffect(() => {
+    //     async function checkForUsersDragons() {
+    //         console.log(currentUser);
+    //         console.log(usersDragons);
+    //         if(currentUser) {
+    //             const usersDragonsFromDB = await getUsersDragonsFromDB(currentUser.uid);
+    //             console.log(usersDragonsFromDB);
+    
+    //             if(usersDragonsFromDB !== undefined  && usersDragonsFromDB !== null && usersDragonsFromDB.length > 0)
+    //                 setUsersDragons(Object.values(usersDragonsFromDB));
+                
+    //             console.log(usersDragons);
+    
+    //             if(usersDragons.length === 0) {
+    //                 //await setNewBabyDragons();
+    //                 console.log("THere are no dragons for this user")
+    //             }
+    //         }
+    //         else {
+    //             console.log("no current user")
+    //         }
+    //     }
 
-            if(usersDragons.length === 0) {
-                await setNewBabyDragons();
-            }
-        }
-        else {
-            console.log("no current user")
-        }
-    }
+    //     checkForUsersDragons();
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
     useEffect(() => {
-        checkForUsersDragons();
+        if (currentUser && (!usersDragons || usersDragons.length === 0)) {
+            async function checkForUsersDragons() {
+                try {
+                    const usersDragonsFromDB = await getUsersDragonsFromDB(currentUser.uid);
+                    const usersDragonsFromDBArray = Object.values(usersDragonsFromDB);
+                    if (usersDragonsFromDBArray.length > 0) {
+                        setUsersDragons(usersDragonsFromDBArray);
+                    } else {
+                        console.log("No dragons for this user");
+                    }
+                } catch (error) {
+                    console.error("Error fetching dragons:", error);
+                }
+            }
+    
+            checkForUsersDragons();
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [currentUser, usersDragons]);
+    
+    
+    useEffect(() => {
+        console.log("Updated usersDragons:", usersDragons);
+    
+        if (usersDragons && usersDragons.length === 0) {
+            console.log("No dragons found after update.");
+        }
+    }, [usersDragons]); // Monitor `usersDragons` changes
+
     
     return (
         <div>
@@ -114,7 +149,10 @@ function DashboardPage() {
                         }
                     </div>
                 </div>
+                {console.log(usersDragons.dragons)}
                 {
+                    usersDragons ? 
+                    //console.log(usersDragons);
                     usersDragons.map((dragon) => {
                         const {id, imageUrl, mainColor, secondaryColor, Age} = dragon;
 
@@ -124,12 +162,12 @@ function DashboardPage() {
                             case "Egg": imageHeight = "75"; break;
                             case "Baby": imageHeight = "100"; break;
                             case "Adult": imageHeight = "200"; break;
-                            default: break;
+                            default: imageHeight = "100"; break;
                         }
                         return (
                             <CustomImage key={id} sourceURI={imageUrl} alt={`${mainColor} and ${secondaryColor} dragon`} height={imageHeight} />
                         )
-                })}
+                } ): console.log("usersDragons is not defined")}
             </div>
             {/*Progress Bar component*/}
             <div className="progress-bar-container">
