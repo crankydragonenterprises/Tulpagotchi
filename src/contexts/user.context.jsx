@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        
         const unsubscribe = onAuthStateChangedListener((user)=> {
             if(user)
             {

@@ -7,12 +7,12 @@ import { createContext, useState } from "react";
 import { UserContext } from "./user.context";
 
 export const DragonContext = createContext({
-    usersDragons: [],
+    usersDragons: null,
     setUsersDragons: () => null,
 });
 
 export const DragonProvider = ({ children }) => {
-    const [usersDragons, setUsersDragons] = useState({});
+    const [usersDragons, setUsersDragons] = useState([]);
     const value = { usersDragons, setUsersDragons };
 
     return <DragonContext.Provider value={value}>{children}</DragonContext.Provider>
