@@ -4,7 +4,7 @@ import { getRandomInt, getRandomUid } from "../utils/random/random.utils";
 
 import { DragonData } from '../dragon_data';
 import { createContext, useState } from "react";
-import { UserContext } from "./user.context";
+//import { UserContext } from "./user.context";
 
 export const DragonContext = createContext({
     usersDragons: null,
@@ -19,6 +19,9 @@ export const DragonProvider = ({ children }) => {
 }
 
 export const setDragonsInDB = async(dragons, userID) => {
+    // console.log("dragons: " + dragons);
+    // console.log("userId" + userID);
+
     await addDocumentToCollection("usersDragons", userID, dragons);
     //console.log("added dragons to db");
 }
@@ -59,16 +62,17 @@ export async function createRandomBabyDragons() {
 }
 
 export async function setNewBabyDragons(currentUser) {
-    const setUsersDragons = UserContext(DragonContext);
+    //const setUsersDragons = UserContext(DragonContext);
 
     const newBabyDragons = await createRandomBabyDragons();
     //console.log(newBabyDragons);
-    setUsersDragons(newBabyDragons); 
+    //setUsersDragons(newBabyDragons); 
     const babyDragonObject = newBabyDragons.reduce((acc, value, index) => {
         acc[index] = value;
         return acc;
     }, {})
-    //console.log(babyDragonObject);
+    console.log(babyDragonObject);
+    console.log(currentUser.uid);
     await setDragonsInDB(babyDragonObject, currentUser.uid);
 }
 

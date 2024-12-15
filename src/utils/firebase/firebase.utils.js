@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'firebase/firestore';
 
-//import { setNewBabyDragons } from '../../contexts/dragons.context';
+import { setNewBabyDragons } from '../../contexts/dragons.context';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -49,7 +49,7 @@ export const getDocumentCollection = async(collectioName, userUid) => {
 }
 
 export const addDocumentToCollection = async(collectionName, userUid, objectArrayToAdd) => {
-    // console.log(collectionName);
+    //console.log(collectionName);
     // console.log(userUid);
     // console.log(objectArrayToAdd);
     try {
@@ -65,8 +65,8 @@ export const addDocumentToCollection = async(collectionName, userUid, objectArra
 }
 
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
-    console.log(collectionKey);
-    console.log(objectsToAdd)
+    // console.log(collectionKey);
+    // console.log(objectsToAdd)
     try {
 
         const collectionReference = collection(db, collectionKey);
@@ -109,13 +109,15 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     if(!userSnapshot.exists()) {
         const { displayName, email } = userAuth;
         const createdAt = new Date();
+        const isNewUser = true; //if the userSnapshot does not exist, they're a new user and need random baby dragons
 
         try {
             await setDoc(userDocRef, {
                 displayName, email, createdAt, ...additionalInformation
             });
-
-            //await setNewBabyDragons(userDocRef);
+            //console.log(userAuth);
+            isNewUser ? await setNewBabyDragons(userAuth) : console.log("isNewUser: " + isNewUser)
+            //await setDoc(userDocRef, { ...userDocRef, isNewUser: false });
         }
         catch (error) {
             console.log('error creating the users', error.message);
