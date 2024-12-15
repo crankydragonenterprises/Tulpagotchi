@@ -7,6 +7,7 @@ import FilterDropDown from "../filter-dropdown/filter-dropdown.component";
 import { DragonContext } from "../../contexts/dragons.context";
 import { UserContext } from "../../contexts/user.context";
 import { getDocumentCollection } from "../../utils/firebase/firebase.utils";
+import ProgressSection from "../progress-section/progress-section.component";
 
 const FilterOptions = [
     {
@@ -89,16 +90,8 @@ function DashboardPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
     
-    
-    // useEffect(() => {
-    //     if (usersDragons && usersDragons.length === 0) {
-    //         console.log("No dragons found after update.");
-    //     }
-    // }, [usersDragons]); // Monitor `usersDragons` changes
-
-    
     return (
-        <div>
+        <div className="dashboard-container">
             {/*Dragon Pen component*/}
             <div className="dragon-pen-container">
                 <div className="filters-parent">
@@ -131,18 +124,7 @@ function DashboardPage() {
                 } 
             </div>
             {/*Progress Bar component*/}
-            <div className="progress-bar-container">
-                <label htmlFor="level-progress-bar">Progress</label>
-                <progress id="level-progress-bar" value="32" max="100"> 32% </progress>
-                <label htmlFor="daily-words-progress-bar">Daily Words</label>
-                <progress id="daily-words-progress-bar" value="32" max="100"> 32% </progress>
-                <label htmlFor="daily-minutes-progress-bar">Daily Minutes</label>
-                <progress id="daily-minutes-progress-bar" value="32" max="100"> 32% </progress>
-
-                <p>Total Words - ###</p>
-                <p>Total Hours - ###</p>
-                <p>Average Speeds - ###</p>
-            </div>
+            <ProgressSection />
         </div>
     )
 }
