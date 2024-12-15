@@ -67,15 +67,12 @@ function DashboardPage() {
         const getUsersDragonsFromDB = async (userID) => {
             const returnedDragons = await getDocumentCollection("usersDragons", userID);
             const returnDragonsArray = Object.values(returnedDragons);
-            //console.log(returnDragonsArray);
             return returnDragonsArray;
         }
 
         const checkForUsersDragons = async (currentUser) => {
             try {
                 const usersDragonsFromDB = await getUsersDragonsFromDB(currentUser.uid);
-                //console.log(usersDragonsFromDB)
-                //const usersDragonsFromDBArray = Object.values(usersDragonsFromDB);
                 if (usersDragonsFromDB.length > 0) {
                     setUsersDragons(usersDragonsFromDB);
                 } else {
@@ -114,12 +111,8 @@ function DashboardPage() {
                         }
                     </div>
                 </div>
-                {console.log(usersDragons) // this says there's an array with 2 dragons inside it
-                } 
-                {console.log("type of usersDragons: " + typeof(usersDragons)) // this says that the type is an object
-                } 
                 {
-                    typeof(usersDragons) === Array ? 
+                    Array.isArray(usersDragons) ? 
                     usersDragons.map((dragon) => {
                         const {id, imageUrl, mainColor, secondaryColor, Age} = dragon;
 
