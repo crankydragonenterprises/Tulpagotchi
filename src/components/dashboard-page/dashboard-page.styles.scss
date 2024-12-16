@@ -27,6 +27,14 @@
     justify-content: space-between;
 }
 
+.filtered-dragons-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
 @media screen and (max-width: 675px) {
     .dragon-pen-container {
         flex-basis: 100%;

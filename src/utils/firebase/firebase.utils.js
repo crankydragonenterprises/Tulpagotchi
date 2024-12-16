@@ -4,6 +4,9 @@ import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from 'fireb
 
 import { setNewBabyDragons } from '../../contexts/dragons.context';
 
+// require('dotenv').config();
+// console.log(process.env)
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {

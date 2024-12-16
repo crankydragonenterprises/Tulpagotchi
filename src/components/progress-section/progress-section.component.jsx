@@ -10,8 +10,8 @@ import { UserContext } from "../../contexts/user.context";
 const ProgressSection = () => {
     const { userData, setUserData } = useContext(UserDataContext);
     const { currentUser } = useContext(UserContext)
-    console.log(userData)
-    //console.log(currentUser.uid)
+    //console.log(userData)
+    
     const { level, levelMin, levelMax, currentLevelProgress, 
         dailyWords, dailyWordsGoal, 
         dailyMinutes, dailyMinutesGoal, 
@@ -19,7 +19,10 @@ const ProgressSection = () => {
 
     useEffect(() => {
         const getUserData = async (currentUser) => {
-            const userDataObj = await getDocumentCollection("userData", currentUser.uid)
+            var userDataObj = {};
+            currentUser.uid !== undefined
+                ? userDataObj = await getDocumentCollection("userData", currentUser.uid)
+                : console.log("userId was not defined" + currentUser.uid)
             setUserData( userDataObj);
         }
 

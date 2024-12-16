@@ -7,7 +7,8 @@ import FilterDropDown from "../filter-dropdown/filter-dropdown.component";
 import { DragonContext } from "../../contexts/dragons.context";
 import { UserContext } from "../../contexts/user.context";
 import { getDocumentCollection } from "../../utils/firebase/firebase.utils";
-import ProgressSection from "../progress-section/progress-section.component";
+//import ProgressSection from "../progress-section/progress-section.component";
+import { Outlet } from "react-router-dom";
 
 const FilterOptions = [
     {
@@ -89,6 +90,8 @@ function DashboardPage() {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
+
+
     
     return (
         <div className="dashboard-container">
@@ -104,11 +107,12 @@ function DashboardPage() {
                         }
                     </div>
                 </div>
+                <div className="filtered-dragons-container">
                 {
                     Array.isArray(usersDragons) ? 
                     usersDragons.map((dragon) => {
                         const {id, imageUrl, mainColor, secondaryColor, Age} = dragon;
-
+                        
                         var imageHeight;
                         switch(Age)
                         {
@@ -118,13 +122,15 @@ function DashboardPage() {
                             default: imageHeight = "100"; break;
                         }
                         return (
-                            <CustomImage key={id} sourceURI={imageUrl} alt={`${mainColor} and ${secondaryColor} dragon`} height={imageHeight} />
+                            <CustomImage key={id} sourceURI={imageUrl} alt={`${mainColor} and ${secondaryColor} dragon`} height={imageHeight} dragon={dragon}/>
                         )
-                } ): console.log(usersDragons) // this says that it's an array
+                    } ): console.log(usersDragons) // this says that it's an array
                 } 
+                </div>
             </div>
             {/*Progress Bar component*/}
-            <ProgressSection />
+            <Outlet />
+            {/* <ProgressSection /> */}
         </div>
     )
 }
