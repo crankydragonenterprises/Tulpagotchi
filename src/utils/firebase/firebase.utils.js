@@ -117,7 +117,19 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
             });
             //console.log(userAuth);
             isNewUser ? await setNewBabyDragons(userAuth) : console.log("isNewUser: " + isNewUser)
-            //await setDoc(userDocRef, { ...userDocRef, isNewUser: false });
+            isNewUser ? addDocumentToCollection("userData", userAuth.uid, {
+                level: "0",
+                levelMin: "0",
+                levelMax: "500",
+                gems: "0",
+                totalWords: "0",
+                totalMinutes: "0",
+                dailyWords: "0",
+                dailyWordsGoal: "100",
+                dailyMinutes: "0",
+                dailyMinutesGoal: "30",
+                currentDate: new Date(),
+            }) : console.log("Not a new user")
         }
         catch (error) {
             console.log('error creating the users', error.message);

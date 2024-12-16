@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import { UserProvider } from './contexts/user.context';
 import { DragonProvider } from './contexts/dragons.context';
+import { UserDataProvider } from './contexts/user-data.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,7 +14,9 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <DragonProvider>
-          <App />
+          <UserDataProvider>
+            <App />
+          </UserDataProvider>
         </DragonProvider>
       </UserProvider>
     </BrowserRouter>

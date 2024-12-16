@@ -6,3 +6,10 @@
 .progress-totals-container {
     display: block;
 }
+
+@media screen and (max-width: 675px) {
+    .progress-section-container {
+        flex-basis: 100%;
+        margin: 0;
+    }
+}

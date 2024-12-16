@@ -1,5 +1,6 @@
 .dashboard-container {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .dragon-pen-container {
@@ -26,9 +27,9 @@
     justify-content: space-between;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 675px) {
     .dragon-pen-container {
-        width: 100%;
+        flex-basis: 100%;
         margin: 0;
     }
 }
