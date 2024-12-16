@@ -1,18 +1,20 @@
 .progress-bar-container {
     display: flex;
 }
-.progress-label {
+
+.label-container {
+    display: flex;
     flex-basis: 30%;
     flex-grow: 0;
     flex-shrink: 0;
     align-items: center;
-    justify-content: center;
-    border: 1px solid red;
+    justify-content: flex-start;
+    margin: 0 10px;
 }
 
-progress {
+.progress-bar {
     height: 50px;
-    flex-basis: 70%;
+    flex-basis: 60%;
     flex-shrink: 0;
     flex-grow: 0;
     align-items: center;

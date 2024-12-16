@@ -29,9 +29,11 @@ const ProgressSection = () => {
                 progressBarMin="0"
                 progressBarMax="100"
             />
-            <p>Total Words - ###</p>
-            <p>Total Hours - ###</p>
-            <p>Average Speeds - ###</p>
+            <div className="progress-totals-container">
+                <p>Total Words - ###</p>
+                <p>Total Hours - ###</p>
+                <p>Average Speed - ###</p>
+            </div>
         </div>
     )
 }
